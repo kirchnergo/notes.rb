@@ -1,0 +1,192 @@
+% Created 2016-03-14 Mo 12:47
+\documentclass[a4paper, captions=tableheading]{tufte-handout}
+        \usepackage[utf8]{inputenc}
+\usepackage[ngerman, english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{footnote}
+\usepackage{minitoc}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{fancyvrb}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{rotating}
+\usepackage{multicol}
+\usepackage{pdflscape}
+\usepackage{ctable}
+\usepackage{parskip}
+\usepackage{anysize}
+\usepackage{supertabular}
+\usepackage{minted}
+\usepackage{natbib}
+\usemintedstyle{perldoc}
+\usepackage{gensymb}
+\usepackage{nicefrac}
+\usepackage{units}
+\usepackage{marginfix}
+\usepackage{breakurl}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{tabu}
+\usepackage{tabulary}
+\usepackage{tocloft}
+\usepackage{titlesec}
+\newcommand{\sectionbreak}{\clearpage}
+\makeatletter
+\renewcommand{\@tufte@reset@par}{\setlength{\RaggedRightParindent}{0pt}\setlength{\JustifyingParindent}{0pt}\setlength{\parindent}{0pt}\setlength{\parskip}{0.5\baselineskip}}
+\@tufte@reset@par
+\renewcommand{\@tufte@margin@par}{\setlength{\RaggedRightParindent}{0pt}\setlength{\JustifyingParindent}{0pt}\setlength{\parindent}{0pt}\setlength{\parskip}{0.5\baselineskip}}
+\makeatother
+\geometry{left=20mm, textwidth=130mm, marginparsep=8mm, marginparwidth=40mm}
+\definecolor{darkblue}{rgb}{0,0,.5}
+\definecolor{darkgreen}{rgb}{0,.5,0}
+\definecolor{islamicgreen}{rgb}{0.0, 0.56, 0.0}
+\definecolor{darkred}{rgb}{0.5,0,0}
+\definecolor{mintedbg}{rgb}{0.95,0.95,0.95}
+\definecolor{arsenic}{rgb}{0.23, 0.27, 0.29}
+\definecolor{prussianblue}{rgb}{0.0, 0.19, 0.33}
+\definecolor{coolblack}{rgb}{0.0, 0.18, 0.39}
+\definecolor{cobalt}{rgb}{0.0, 0.28, 0.67}
+\definecolor{moonstoneblue}{rgb}{0.45, 0.66, 0.76}
+\definecolor{aliceblue}{rgb}{0.94, 0.97, 1.0}
+\hypersetup{colorlinks=true, breaklinks=true, linkcolor=coolblack, anchorcolor=blue, citecolor=islamicgreen, filecolor=blue,  menucolor=blue,  urlcolor=violet}
+\renewcommand\thefootnote{\textcolor{darkred}{\arabic{footnote}}}
+\renewcommand{\theFancyVerbLine}{\sffamily\textcolor[rgb]{0.7,0.7,0.7}{\tiny\arabic{FancyVerbLine}}}
+\setcounter{secnumdepth}{3}
+\titleformat{\section}{\normalfont\Large\itshape\color{black}} {\llap{\colorbox{coolblack}{\parbox{1.5cm}{\hfill\color{white}\thesection}}}}{1em}{}[]
+\titleformat{\subsection}{\normalfont\large\itshape\color{black}} {\llap{\colorbox{aliceblue}{\parbox{1.5cm}{\hfill\color{coolblack}\thesubsection}}}}{1em}{}[]
+\titleformat{\subsubsection}{\normalfont\large\itshape\color{black}} {\llap{\colorbox{aliceblue}{\parbox{1.5cm}{\hfill\color{coolblack}\thesubsubsection}}}}{1em}{}[]
+\author{Göran Kirchner}
+\date{\today}
+\title{Notes on Ruby}
+\hypersetup{
+ pdfauthor={Göran Kirchner},
+ pdftitle={Notes on Ruby},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 24.5.1 (Org mode 8.3.1)},
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Cucumber}
+\label{sec:orgheadline1}
+
+\section{Capybara}
+\label{sec:orgheadline11}
+\subsection{Navigating}
+\label{sec:orgheadline2}
+\begin{minted}[bgcolor=mintedbg,frame=none,framesep=0pt,mathescape=true,fontsize=\footnotesize,gobble=0]{ruby}
+visit('/projects')
+visit(post_comments_path(post))
+\end{minted}
+
+\subsection{Clicking links and buttons}
+\label{sec:orgheadline3}
+\begin{minted}[bgcolor=mintedbg,frame=none,framesep=0pt,mathescape=true,fontsize=\footnotesize,gobble=0]{ruby}
+click_link('id-of-link')
+click_link('Link Text')
+click_button('Save')
+click('Link Text') # Click either a link or a button
+click('Button Value')
+\end{minted}
+
+\subsection{Interacting with forms}
+\label{sec:orgheadline4}
+\begin{minted}[bgcolor=mintedbg,frame=none,framesep=0pt,mathescape=true,fontsize=\footnotesize,gobble=0]{ruby}
+fill_in('First Name', :with => 'John')
+fill_in('Password', :with => 'Seekrit')
+fill_in('Description', :with => 'Really Long Text_')
+choose('A Radio Button')
+check('A Checkbox')
+uncheck('A Checkbox')
+attach_file('Image', '/path/to/image.jpg')
+select('Option', :from => 'Select Box')
+\end{minted}
+
+\subsection{Scoping}
+\label{sec:orgheadline5}
+\begin{minted}[bgcolor=mintedbg,frame=none,framesep=0pt,mathescape=true,fontsize=\footnotesize,gobble=0]{ruby}
+within("//li[@id='employee']") do
+	fill_in 'Name', :with => 'Jimmy'
+end
+
+within(:css, "li#employee") do
+	fill_in 'Name', :with => 'Jimmy'
+end
+
+within_fieldset('Employee') do
+	fill_in 'Name', :with => 'Jimmy'
+end
+
+within_table('Employee') do
+	fill_in 'Name', :with => 'Jimmy'
+end
+\end{minted}
+
+\subsection{Querying}
+\label{sec:orgheadline6}
+\begin{minted}[bgcolor=mintedbg,frame=none,framesep=0pt,mathescape=true,fontsize=\footnotesize,gobble=0]{ruby}
+page.has_xpath?('//table/tr')
+page.has_css?('table tr.foo')
+page.has_content?('foo')
+page.should have_xpath('//table/tr')
+page.should have_css('table tr.foo')
+page.should have_content('foo')
+page.should have_no_content('foo')
+find_field('First Name').value
+find_link('Hello').visible?
+find_button('Send').click
+find('//table/tr').click
+locate("//*[@id='overlay'").find("//h1").click
+all('a').each { |a| a[:href] }
+\end{minted}
+
+\subsection{Scripting}
+\label{sec:orgheadline7}
+\begin{minted}[bgcolor=mintedbg,frame=none,framesep=0pt,mathescape=true,fontsize=\footnotesize,gobble=0]{ruby}
+result = page.evaluate_script('4 + 4');
+\end{minted}
+
+\subsection{Debugging}
+\label{sec:orgheadline8}
+\begin{minted}[bgcolor=mintedbg,frame=none,framesep=0pt,mathescape=true,fontsize=\footnotesize,gobble=0]{ruby}
+save_and_open_page
+\end{minted}
+
+\subsection{Asynchronous JavaScript}
+\label{sec:orgheadline9}
+\begin{minted}[bgcolor=mintedbg,frame=none,framesep=0pt,mathescape=true,fontsize=\footnotesize,gobble=0]{ruby}
+click_link('foo')
+click_link('bar')
+page.should have_content('baz')
+page.should_not have_xpath('//a')
+page.should have_no_xpath('//a')
+\end{minted}
+
+\subsection{XPath and CSS}
+\label{sec:orgheadline10}
+\begin{minted}[bgcolor=mintedbg,frame=none,framesep=0pt,mathescape=true,fontsize=\footnotesize,gobble=0]{ruby}
+within(:css, 'ul li') { ... }
+find(:css, 'ul li').text
+locate(:css, 'input#name').value
+Capybara.default_selector = :css
+within('ul li') { ... }
+find('ul li').text
+locate('input#name').value
+\end{minted}
+
+\section{RSpec}
+\label{sec:orgheadline12}
+\end{document}
